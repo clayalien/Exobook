@@ -17,9 +17,10 @@ class Planets extends CI_Controller {
 		$selected = $filtered[0];
 
 		//Get some finer details frm the exoplanet catalogue
-		$planet = 
-			simplexml_load_file('https://raw.github.com/hannorein/open_exoplanet_catalogue/master/data/'.rawurlencode($selected->_id).'.xml')
-		;
+
+		$this->load->model('Planet_Model');
+		$planet = $this->Planet_Model->get_planet($selected->_id);
+
 		//var_dump($planet_xml);
 		$this->load->view('panel',$planet);
 	}
