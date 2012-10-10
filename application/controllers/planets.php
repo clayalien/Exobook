@@ -26,7 +26,6 @@ class Planets extends CI_Controller {
 		$this->load->model('Planet_Model');
 		$planet = $this->Planet_Model->get_planet($selected->_id);
 
-		//var_dump($planet_xml);
 		$this->load->view('panel',$planet);
 	}
 	
