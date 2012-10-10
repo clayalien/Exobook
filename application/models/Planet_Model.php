@@ -10,6 +10,17 @@ class Planet_Model extends CI_Model
 		parent::__construct();
 	}
 	
+	function get_imaged_planets()
+	{
+		$skyhook = json_decode(  
+			file_get_contents('http://exoapi.com/api/skyhook/planets/all?fields=[_id,image]')
+		);
+		$planets = $skyhook->response->results;
+		
+		//Only interested in planets that have images
+		return array_values((array_filter($planets, array($this, 'has_image'))));
+	}
+	
 	function get_planet($id)
 	{
 		$planet = simplexml_load_file("https://raw.github.com/hannorein/open_exoplanet_catalogue/master/data/$id.xml");
@@ -42,5 +53,13 @@ class Planet_Model extends CI_Model
 		unset($xml->{$field});
 		$xml->{$field} = $flat;
 		
+	}
+	
+	private function has_image($planet)
+	{
+		$trimmed = $planet->image;
+		$trimmed = trim($trimmed);
+
+		return($trimmed != '');
 	}
 }	
