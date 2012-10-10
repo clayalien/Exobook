@@ -4,6 +4,11 @@ class Planets extends CI_Controller {
 
 	public function index()
 	{
+		$this->random_planet();
+	}
+
+	public function random_planet()
+	{
 		$skyhook = json_decode(  
 			file_get_contents('http://exoapi.com/api/skyhook/planets/all?fields=[_id,image]')
 		);
